@@ -1,18 +1,20 @@
 # Simple RTMP Server
 
 Server RTMP yang sederhana, stabil, dan siap dipakai menggunakan Node.js dan `node-media-server`.
-Server ini mendukung penerimaan *live stream* via OBS atau FFmpeg, dilengkapi dengan HTTP endpoint untuk melihat status stream yang sedang aktif, serta file Docker untuk kemudahan *deployment*.
+Server ini mendukung penerimaan *live stream* via OBS atau FFmpeg, dilengkapi dengan *Web Player* antarmuka (UI) untuk menonton streaming secara langsung di browser dan HTTP endpoint untuk memantau status stream. Tersedia juga file Docker untuk kemudahan *deployment*.
 
 ## Arsitektur Singkat
 Aplikasi ini menggunakan Node.js karena *ecosystem*-nya stabil untuk pengolahan *streaming* ringan.
-- **`node-media-server`**: Menangani koneksi RTMP (port 1935) masuk (*publish*) dan keluar (*play*), serta *logging* event seperti koneksi dan pemutusan stream.
-- **`express`**: Menyediakan HTTP API sederhana (port 3000) untuk mengecek status dan *uptime* dari RTMP Server dan *stream* yang sedang aktif.
+- **`node-media-server`**: Menangani koneksi RTMP (port 1935) masuk (*publish*) dan keluar (*play*), HTTP-FLV Streaming (port 8000), serta *logging* event seperti koneksi.
+- **`express`**: Menyediakan HTTP API sederhana dan Web Player antarmuka (port 3000) untuk mengecek status dan menonton *stream* yang sedang aktif.
+- **Web Frontend**: Web statis yang menyajikan HTML5 video player menggunakan [flv.js](https://github.com/bilibili/flv.js) untuk memutar *HTTP-FLV streams*.
 
 ## Struktur Direktori
 ```
 .
 ├── src/
 │   └── server.js        # File utama server (RTMP + HTTP API)
+├── public/              # File Frontend Web Player (HTML, CSS, JS)
 ├── Dockerfile           # Konfigurasi image Docker
 ├── docker-compose.yml   # File Compose untuk menjalankan server sebagai layanan
 ├── package.json         # Dependensi Node.js
@@ -56,12 +58,13 @@ Untuk melakukan push/publish stream, gunakan *URL format* berikut:
 
 *(Catatan: Ganti `localhost` dengan IP server / Domain jika di-*deploy* secara publik).*
 
-## Mengecek Status Server
-Server ini juga menyediakan API sederhana untuk mengecek *stream* yang sedang aktif. API berjalan pada port `3000`.
+## Web Player & Status Server
+Server ini menyediakan **Web Player** dan **Status API** pada port `3000`.
 
-- **Endpoint**: `GET http://localhost:3000/status`
+- **Web Player**: Buka browser dan akses `http://localhost:3000`. UI akan secara otomatis menampilkan status *Offline* atau *Online* beserta video player jika stream tersedia.
+- **API Endpoint**: `GET http://localhost:3000/status`
 
-**Contoh Response:**
+**Contoh Response API:**
 ```json
 {
   "status": "online",

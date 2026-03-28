@@ -9,6 +9,10 @@ const config = {
     gop_cache: true,
     ping: 30,
     ping_timeout: 60
+  },
+  http: {
+    port: 8000,
+    allow_origin: '*'
   }
 };
 
@@ -90,7 +94,11 @@ nms.run();
 
 // Express API Setup
 const app = express();
+const path = require('path');
 const API_PORT = process.env.API_PORT || 3000;
+
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/status', (req, res) => {
   const uptimeSeconds = Math.floor((Date.now() - serverStartTime) / 1000);

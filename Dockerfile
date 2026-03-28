@@ -11,6 +11,8 @@ COPY . .
 
 # Expose RTMP Port
 EXPOSE 1935
+# Expose HTTP-FLV Port
+EXPOSE 8000
 # Expose HTTP API Port
 EXPOSE 3000
 
