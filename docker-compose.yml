@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  rtmp-server:
+    build: .
+    container_name: rtmp-server
+    ports:
+      - "1935:1935" # RTMP port
+      - "3000:3000" # API status port
+    environment:
+      - NODE_ENV=production
+      - API_PORT=3000
+    restart: unless-stopped
