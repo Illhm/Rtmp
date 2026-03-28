@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Streaming Web Player</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <h1>RTMP Live Server</h1>
+        <div id="status-badge" class="badge badge-offline">Offline</div>
+    </header>
+
+    <main class="container">
+
+        <div class="video-container">
+            <video id="videoElement" controls autoplay muted></video>
+
+            <div id="offline-overlay" class="overlay">
+                <h2>Stream Offline</h2>
+                <p>Menunggu stream dari OBS atau FFmpeg...</p>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <h2>Detail Stream</h2>
+            <ul id="stream-info-list">
+                <li><strong>Status Server:</strong> <span id="server-status">-</span></li>
+                <li><strong>Uptime Server:</strong> <span id="server-uptime">0s</span></li>
+                <li><strong>Aplikasi RTMP:</strong> <span id="stream-app">-</span></li>
+                <li><strong>Stream Key:</strong> <span id="stream-key">-</span></li>
+                <li><strong>Uptime Stream:</strong> <span id="stream-uptime">-</span></li>
+                <li><strong>Playback URL (FLV):</strong> <a id="stream-url" href="#" target="_blank">-</a></li>
+            </ul>
+
+            <button id="refresh-btn" class="btn">Muat Ulang Status</button>
+        </div>
+
+    </main>
+
+    <!-- Import flv.js library to play HTTP-FLV streams -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/flv.js/1.6.2/flv.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
